@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shotgun by Samuel Bering</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="GameEngine/styles.css">
+    <script type="text/javascript" src="GameEngine/player.js"></script>
+    <script type="text/javascript" src="GameEngine/computerPlayer.js"></script>
+    <script type="text/javascript" src="GameEngine/graphics.js"></script>
+    <script type="text/javascript" src="GameEngine/shotgun.js"></script>
+    <script type="text/javascript" src="bootstrap.modal.wrapper.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div id="gameContainer"></div>
+
+    </div>
+
+    <script>
+
+        function endGame(won) {
+            let title = "";
+            if (won)
+                title = "Congratulations, you have WON!!";
+            else
+                title = "Sorry, you have lost...";
+
+
+            showBSModal({
+                title: title,
+                body: "Do you want to continue playing?, click 'Continue' or 'Quit'",
+                size: "small",
+                actions: [{
+                    label: 'Continue',
+                    cssClass: 'btn-success',
+                    onClick: function (e) {
+                        $(e.target).parents('.modal').modal('hide');
+                    }
+                }, {
+                    label: 'Quit',
+                    cssClass: 'btn-danger',
+                    onClick: function (e) {
+                        $(e.target).parents('.modal').modal('hide');
+                       shotgunGame.quit();
+                       gameContainer.textContent="Thanks for playing Shotgun by Samuel Bering.";
+                    }
+                }]
+            });
+        }
+
+        let userPlayer = new Player("Samuel");
+
+        let computerPlayer = new ComputerPlayer("Simone");
+
+
+        let gameContainer = document.getElementById("gameContainer");
+
+
+        let graphics = new Graphics(gameContainer, userPlayer, computerPlayer);
+
+        let shotgunGame = new Shotgun(graphics, userPlayer, computerPlayer, endGame)
+
+        shotgunGame.run();
+
+
+    </script>
+
+</body>
+
+</html>
