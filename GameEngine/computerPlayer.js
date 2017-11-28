@@ -7,7 +7,7 @@ function ComputerPlayer(name) {
         let choice;
 
         if (this.shots > 2)
-            choice = Math.floor(Math.random() * 4);
+            choice = 3;
         else if (this.shots > 0)
             choice = Math.floor(Math.random() * 3);
         else

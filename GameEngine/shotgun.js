@@ -7,27 +7,25 @@ function Shotgun(graphics, userPlayer, computerPlayer, funcEndGame) {
 
     this.executeGameRound = () => {
         this.computerPlayer.makeMove();
-        this.graphics.update();
 
         if (this.userPlayer.status == "shoot" && this.computerPlayer.status == "load") {
             this.userPlayer.score += 1;
-            this.funcEndGame(true);
+            this.funcEndGame(true, this);
         }
         else if (this.computerPlayer.status == "shoot" && this.userPlayer.status == "load") {
             this.computerPlayer.score += 1;
-            this.funcEndGame(false);
+            this.funcEndGame(false, this);
         }
-        else if (this.userPlayer.status == "shotgun" && this.computerPlayer.status != "shotgun")
-        {
+        else if (this.userPlayer.status == "shotgun" && this.computerPlayer.status != "shotgun") {
             this.userPlayer.score += 1;
-            this.funcEndGame(true);
+            this.funcEndGame(true, this);
         }
-        else if (this.computerPlayer.status == "shotgun" && this.userPlayer.status != "shotgun")
-        {
+        else if (this.computerPlayer.status == "shotgun" && this.userPlayer.status != "shotgun") {
             this.computerPlayer.score += 1;
-            this.funcEndGame(false);
+            this.funcEndGame(false, this);
         }
 
+        this.graphics.update();
     }
 
     this.load = () => {
@@ -54,7 +52,7 @@ function Shotgun(graphics, userPlayer, computerPlayer, funcEndGame) {
     $(this.graphics.userPlayerBlockButton).click(this.block);
     $(this.graphics.userPlayerShootButton).click(this.shoot);
     $(this.graphics.userPlayerShotgunButton).click(this.shotgun);
-    
+
     this.run = () => {
         this.graphics.show();
     }

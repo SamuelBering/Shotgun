@@ -30,13 +30,12 @@
 
     <script>
 
-        function endGame(won) {
+        function endGame(won, shotgunGame) {
             let title = "";
             if (won)
                 title = "Congratulations, you have WON!!";
             else
                 title = "Sorry, you have lost...";
-
 
             showBSModal({
                 title: title,
@@ -53,26 +52,46 @@
                     cssClass: 'btn-danger',
                     onClick: function (e) {
                         $(e.target).parents('.modal').modal('hide');
-                       shotgunGame.quit();
-                       gameContainer.textContent="Thanks for playing Shotgun by Samuel Bering.";
+                        shotgunGame.quit();
+                        gameContainer.textContent = "Thanks for playing Shotgun by Samuel Bering.";
                     }
                 }]
             });
         }
 
-        let userPlayer = new Player("Samuel");
+        function getUserName(funcStartGame) {
+            showBSModal({
+                title: "Welcome to Shotgun!",
+                body: "Enter your name: <br/><input type='text' id='userName' />",
+                size: "small",
+                actions: [{
+                    label: 'Ok',
+                    cssClass: 'btn-success',
+                    onClick: function (e) {
+                        let userName = $(e.target).closest('.modal-content').find('#userName')[0].value;
+                        $(e.target).parents('.modal').modal('hide');
+                        funcStartGame(userName);
+                    }
+                }]
+            });
+        }
 
-        let computerPlayer = new ComputerPlayer("Simone");
+        function startGame(userName) {
 
+            let userPlayer = new Player(userName);
 
-        let gameContainer = document.getElementById("gameContainer");
+            let computerPlayer = new ComputerPlayer("Simone");
 
+            let gameContainer = document.getElementById("gameContainer");
 
-        let graphics = new Graphics(gameContainer, userPlayer, computerPlayer);
+            let graphics = new Graphics(gameContainer, userPlayer, computerPlayer);
 
-        let shotgunGame = new Shotgun(graphics, userPlayer, computerPlayer, endGame)
+            let shotgunGame = new Shotgun(graphics, userPlayer, computerPlayer, endGame)
 
-        shotgunGame.run();
+            shotgunGame.run();
+        }
+
+        getUserName(startGame);
 
 
     </script>
